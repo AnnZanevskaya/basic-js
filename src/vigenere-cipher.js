@@ -1,13 +1,20 @@
 class VigenereCipheringMachine {
-    encrypt() {
-        throw 'Not implemented';
-        // remove line with error and write your code here
+    constructor(direct) {
+        this.isDirect = direct;
+    }
+    encrypt(message, key) {
+        checkParams(message, key);
     }
 
-    decrypt() {
-        throw 'Not implemented';
-        // remove line with error and write your code here
+    decrypt(message, key) {
+        checkParams(message, key);
     }
 }
+
+function checkParams(message, key) {
+    if (message === undefined ||  key === undefined)
+        throw new Error();
+}
+
 
 module.exports = VigenereCipheringMachine;
