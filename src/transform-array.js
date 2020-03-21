@@ -3,65 +3,34 @@ module.exports = function transform(arr) {
         throw Error();
     }
 
+    let result = [];
+
     for (let index = 0; index < arr.length; index++) {
-        const element = arr[index];
+        switch (arr[index]) {
+            case '--discard-next':
+                index++;
 
-        if (element === "--discard-next") {
-            arr = discardNext(arr, index);
-        }
+                break;
+            case '--discard-prev':
+                result.pop();
 
-        if (element === "--discard-prev") {
-            arr = discardPrev(arr, index);
-        }
+                break;
+            case '--double-next':
+                if ((index + 1) < arr.length) {
+                    result.push(arr[index + 1]);
+                }
 
-        if (element === "--double-next") {
-            arr = doubleNext(arr, index);
-        }
+                break;
+            case '--double-prev':
+                if (index !== 0) {
+                    result.push(arr[index - 1]);
+                }
 
-        if (element === "--double-prev") {
-            arr = doublePrev(arr, index);
+                break;
+            default:
+                result.push(arr[index]);
         }
     }
 
-    return arr;
+    return result;
 };
-
-function discardNext(array, index) {
-    if (array[index + 1] !== undefined) {
-        array.splice(index + 1, 1);
-    }
-
-    array.splice(index, 1);
-
-    return array;
-}
-
-function doubleNext(array, index) {
-    if (array[index + 1] !== undefined) {
-        array.splice(index + 1, 0, array[index + 1]);
-    }
-
-    array.splice(index, 1);
-
-    return array;
-}
-
-function discardPrev(array, index) {
-    if (array[index - 1] !== undefined) {
-        array.splice(index - 1, 1);
-    }
-
-    array.splice(index, 1);
-
-    return array;
-}
-
-function doublePrev(array, index) {
-    if (array[index - 1] !== undefined) {
-        array.splice(index - 1, 0, array[index - 1]);
-    }
-
-    array.splice(index + 1, 1);
-
-    return array;
-}
